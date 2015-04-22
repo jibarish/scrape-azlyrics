@@ -1,5 +1,7 @@
 import os
 from hashlib import sha1
+import time
+import random
 
 import requests
 
@@ -56,3 +58,10 @@ def get_content(url):
         content = response.content
         store_local(url, content)
     return content
+
+def delay():
+    time.sleep(10 + 10 * random.random()) 
+    if random.random() < .02:
+        print ("Taking a long break")
+        time.sleep(30 + 30 * random.random())
+

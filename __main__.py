@@ -61,44 +61,53 @@ def scrape_song_lyrics(artist, song):
 def process_list(songlist):
     pass
 
+
 def parse_list():
     f = open('songlist', 'r')
 
-    array1 = f.read().split('@')[1:]
-    # print (array1)
+    array1 = f.read().lower().split('@')[1:]
 
-    array2 = []
+    tdict = {}
     for each in array1:
         t1 = each.split('\n')
         tarray = []
         for each in t1[1:-1]:
             if each != '':
                 tarray.append(each)
-        dict1 = { t1[0] : tarray }
+        tdict[t1[0]] = tarray
 
-        array2.append(dict1)
+    return tdict
 
-    artists = []
-    for each in array2:
-        print (each)
 
-        # print (each)
+def get_song(artist, song):
+    lyrics = scrape_song_lyrics(artist, song)
+
+    filename = artist + ' - ' + song + '.txt'
+
+    f = open(filename, 'w')
+    f.write(lyrics)
+    f.close()
+
+    print ('Writing ' + artist + ' - ' + song + ':\n' + lyrics)
+
+
 
 if __name__ == '__main__':
-    # artist = 'john frusciante'
-    # song = 'heaven'
 
-    # lyrics = scrape_song_lyrics(artist, song)
+    artist_list = parse_list()
+    for key in artist_list:
+        for each in artist_list[key]:
+            # print (key + ' - ' + each)
+            get_song(key, each)
+            scrapit.delay()
 
-    # filename = artist + ' - ' + song + '.txt'
+            # print (each)
 
-    # f = open(filename, 'w')
-    # f.write(lyrics)
-    # f.close()
-
-    # print ('Writing ' + artist + ' - ' + song + ':\n' + lyrics)
-
-    parse_list()
+        # print (key, values)
+        # for song in each:
+            # print (song)
+        # get_song()
+        # print (each)
 
 
 # pdb.set_trace()
